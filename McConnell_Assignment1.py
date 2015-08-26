@@ -131,8 +131,6 @@ class Node(object):
 		return self.parent
 
 
-
-
 class BinaryTree(object):
 
 	def __init__(self, rootValue):
@@ -165,7 +163,7 @@ class BinaryTree(object):
 			pNode.setLeft(newNode)
 		elif (pNode.getRight() == None):
 			self.existingNodes[value] = newNode
-			pNode.setRight(parentValue)
+			pNode.setRight(newNode)
 		else:
 			print ("Parent already has two children, node not added.")
 			print pNode.getLeft()
@@ -198,6 +196,56 @@ class BinaryTree(object):
 		else:
 			print ("Node not deleted, has children.")
 			return False
+
+	def traverseAndPrint(self, node):
+		print node.getVal()
+
+		if (node.getLeft() != None):
+			self.traverseAndPrint(node.getLeft())
+		if (node.getRight() != None):
+			self.traverseAndPrint(node.getRight())
+
+
+	def printTree(self):
+		self.traverseAndPrint(self.root)
+
+
+
+# GRAPH IMPLEMENTATION #
+
+class Graph(object):
+
+	def __init__(self, value = None):
+		self.nodes = {}
+		if value != None:
+			self.addVertex(value)
+
+	def addVertex(self, value):
+		if not isinstance(value, int):
+			print ("Value entered is not an integer!")
+			return False
+
+		if self.nodes.has_key(value):
+			print ("Vertex already exists.")
+			return False
+
+		self.nodes[value] = [value]
+		return True
+
+	def addEdge(self, value1, value2):
+		if (self.nodes.has_key(value1) == False or self.nodes.has_key(value2) == False):
+			print ("One or more vertices not found.")
+			return False
+
+		self.nodes[value1].append(value2)
+		self.nodes[value2].append(value1)
+		return True
+
+	def findVertex(self, value):
+		if (self.nodes.has_key(value)):
+			print self.nodes[value]
+		else:
+			print ("Vertex not found!")
 
 
 
@@ -248,7 +296,25 @@ if __name__ == "__main__":
 
 	testBinTree = BinaryTree(7)
 	testBinTree.add(2, 7)
-	testBinTree.delete(7)
-	testBinTree.delete(2)
-	testBinTree.delete(7)
+	testBinTree.add(4, 7)
+	testBinTree.add(3, 2)
+	testBinTree.add(5, 4)
+	testBinTree.printTree()
+	testBinTree.delete(4)
+	testBinTree.delete(5)
+	testBinTree.delete(4)
+	testBinTree.printTree()
 
+	# TESTING GRAPH IMPLEMENTATION #
+ 
+ 	print ("")
+	print ("	Testing Graph Implementation 		")
+	print ("--------------------------------------------")
+	print ("")
+
+	testGraph = Graph(5)
+	testGraph.addVertex(8)
+	testGraph.addVertex(12)
+	testGraph.addEdge(8, 12)
+	testGraph.findVertex(12)
+	testGraph.addEdge(9, 8)
