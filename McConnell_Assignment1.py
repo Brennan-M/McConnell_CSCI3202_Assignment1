@@ -165,7 +165,7 @@ class BinaryTree(object):
 			pNode.setLeft(newNode)
 		elif (pNode.getRight() == None):
 			self.existingNodes[value] = newNode
-			pNode.setRight(parentValue)
+			pNode.setRight(newNode)
 		else:
 			print ("Parent already has two children, node not added.")
 			print pNode.getLeft()
@@ -198,6 +198,19 @@ class BinaryTree(object):
 		else:
 			print ("Node not deleted, has children.")
 			return False
+
+	def traverseAndPrint(self, node):
+		print node.getVal()
+
+		if (node.getLeft() != None):
+			self.traverseAndPrint(node.getLeft())
+		if (node.getRight() != None):
+			self.traverseAndPrint(node.getRight())
+
+
+	def printTree(self):
+		self.traverseAndPrint(self.root)
+
 
 
 
@@ -248,7 +261,11 @@ if __name__ == "__main__":
 
 	testBinTree = BinaryTree(7)
 	testBinTree.add(2, 7)
-	testBinTree.delete(7)
-	testBinTree.delete(2)
-	testBinTree.delete(7)
-
+	testBinTree.add(4, 7)
+	testBinTree.add(3, 2)
+	testBinTree.add(5, 4)
+	testBinTree.printTree()
+	testBinTree.delete(4)
+	testBinTree.delete(5)
+	testBinTree.delete(4)
+	testBinTree.printTree()
