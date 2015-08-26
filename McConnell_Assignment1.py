@@ -315,4 +315,5 @@ if __name__ == "__main__":
 	testGraph.addEdge(8, 12)
 	testGraph.findVertex(12)
 	testGraph.addEdge(9, 8)
+	testGraph.findVertex(4)
 
