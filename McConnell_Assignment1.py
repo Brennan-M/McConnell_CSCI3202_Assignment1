@@ -65,25 +65,23 @@ class Node(object):
 
 	def __init__(self, data, left = None, right = None, parent = None):
 
-		self.val = None
 		valid = self.setVal(data)
 		if not valid:
 			return None
-
-		self.parent = None
-		valid = self.setParent(parent)
-		if not valid:
-			return None
-
-		self.left = None
+	
 		valid = self.setLeft(left)
 		if not valid:
 			return None
-
-		self.right = None
+		
 		valid = self.setRight(right)
 		if not valid:
 			return None
+	
+		valid = self.setParent(parent)
+		if not valid:
+			return None
+		
+
 
 	def setVal(self, data):
 		if not isinstance(data, int):
@@ -94,25 +92,28 @@ class Node(object):
 		return True
 
 	def setLeft(self, lNode):
-		if not isinstance(lNode, Node):
-			print ("Left node is not of type Node!")
-			return False
+		if (lNode != None):
+			if not isinstance(lNode, Node):
+				print ("Left node is not of type Node!")
+				return False
 
 		self.left = lNode
 		return True
 
 	def setRight(self, rNode):
-		if not isinstance(rNode, Node):
-			print ("Right node is not of type Node!")
-			return False
+		if (rNode != None):
+			if not isinstance(rNode, Node):
+				print ("Right node is not of type Node!")
+				return False
 
-		self.left = rNode
+		self.right = rNode
 		return True
 
 	def setParent(self, pNode):
-		if not isinstance(pNode, Node):
-			print ("Parent node is not of type Node!")
-			return False
+		if (pNode != None):
+			if not isinstance(pNode, Node):
+				print ("Parent node is not of type Node!")
+				return False
 
 		self.parent = pNode
 		return True
@@ -153,23 +154,50 @@ class BinaryTree(object):
 			print ("This node already exists in our tree!")
 			return False
 
-		pNode = self.existingNodes[parentNode.val]
-		newNode = Node(value)
+		pNode = self.existingNodes[parentValue]
+		newNode = Node(value, None, None, pNode)
 		if (newNode == None):
 			print ("Unable to add this node, type error occured")
 			return False
 
-		if (pNode.getLeft == None):
+		if (pNode.getLeft() == None):
 			self.existingNodes[value] = newNode
 			pNode.setLeft(newNode)
-		elif (pNode.getRight == None):
+		elif (pNode.getRight() == None):
 			self.existingNodes[value] = newNode
 			pNode.setRight(parentValue)
 		else:
 			print ("Parent already has two children, node not added.")
+			print pNode.getLeft()
+			print pNode.getRight()
 			return False
 
 		return True
+
+	def delete(self, value):
+		if not (self.existingNodes.has_key(value)):
+			print ("Node not found.")
+			return False
+
+		nodeToDelete = self.existingNodes[value]
+		if (nodeToDelete.getLeft() == None and nodeToDelete.getRight() == None):
+			pNode = nodeToDelete.getParent()
+			if (pNode == None):
+				print ("Stop! You cannot delete the root of the tree!")
+				return False
+
+			if pNode.getLeft() == nodeToDelete:
+				pNode.setLeft(None)
+			elif pNode.getRight() == nodeToDelete:
+				pNode.setRight(None)
+			self.existingNodes[nodeToDelete.getVal()] = None
+			nodeToDelete = None
+			print ("Node Successfully deleted.")
+			return True
+
+		else:
+			print ("Node not deleted, has children.")
+			return False
 
 
 
@@ -182,9 +210,10 @@ if __name__ == "__main__":
 
 	# TESTING QUEUE IMPLEMENTATION #
 
-	print ("		Testing Queue Implementation		")
+	print ("")
+	print ("	Testing Queue Implementation		")
 	print ("--------------------------------------------")
-	print ()
+	print ("")
 
 	testQueue = Queue()
 	testQueue.put(5)
@@ -196,9 +225,10 @@ if __name__ == "__main__":
 
 	# TESTING STACK IMPLEMENTATION #
 
-	print ("		Testing Stack Implementation		")
+	print ("")
+	print ("	Testing Stack Implementation		")
 	print ("--------------------------------------------")
-	print ()
+	print ("")
 
 	testStack = Stack()
 	testStack.push(5)
@@ -211,8 +241,14 @@ if __name__ == "__main__":
 
 	# TESTING BINARY TREE IMPLEMENTATION #
  
-	print ("	 Testing Binary Tree Implementation 	")
+ 	print ("")
+	print ("     Testing Binary Tree Implementation 	")
 	print ("--------------------------------------------")
-	print ()
+	print ("")
 
 	testBinTree = BinaryTree(7)
+	testBinTree.add(2, 7)
+	testBinTree.delete(7)
+	testBinTree.delete(2)
+	testBinTree.delete(7)
+
