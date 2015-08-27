@@ -1,6 +1,6 @@
 ############################################
-#		AI Homework Assignment One 		   #
-#			Brennan McConnell              #
+# 	AI Homework Assignment One 	   #
+#	    Brennan McConnell              #
 ############################################
 
 
