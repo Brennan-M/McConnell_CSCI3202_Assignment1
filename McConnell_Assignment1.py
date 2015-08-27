@@ -1,5 +1,6 @@
 ############################################
 #		AI Homework Assignment One 		   #
+#			Brennan McConnell              #
 ############################################
 
 
@@ -57,6 +58,7 @@ class Stack(object):
 
 	def checkSize(self):
 		return len(self.stack)
+
 
 
 # BINARY TREE IMPLEMENTATION #
@@ -136,7 +138,7 @@ class BinaryTree(object):
 	def __init__(self, rootValue):
 
 		self.root = Node(rootValue)
-		if (self.root == None):
+		if (self.root is None):
 			return None
 
 		self.existingNodes = {self.root.val : self.root}
@@ -153,15 +155,19 @@ class BinaryTree(object):
 			return False
 
 		pNode = self.existingNodes[parentValue]
+		if (pNode == None):
+			print "WTF", parentValue
+			return False
+
 		newNode = Node(value, None, None, pNode)
-		if (newNode == None):
+		if (newNode is None):
 			print ("Unable to add this node, type error occured")
 			return False
 
-		if (pNode.getLeft() == None):
+		if (pNode.getLeft() is None):
 			self.existingNodes[value] = newNode
 			pNode.setLeft(newNode)
-		elif (pNode.getRight() == None):
+		elif (pNode.getRight() is None):
 			self.existingNodes[value] = newNode
 			pNode.setRight(newNode)
 		else:
@@ -178,9 +184,9 @@ class BinaryTree(object):
 			return False
 
 		nodeToDelete = self.existingNodes[value]
-		if (nodeToDelete.getLeft() == None and nodeToDelete.getRight() == None):
+		if (nodeToDelete.getLeft() is None and nodeToDelete.getRight() is None):
 			pNode = nodeToDelete.getParent()
-			if (pNode == None):
+			if (pNode is None):
 				print ("Stop! You cannot delete the root of the tree!")
 				return False
 
@@ -188,7 +194,7 @@ class BinaryTree(object):
 				pNode.setLeft(None)
 			elif pNode.getRight() == nodeToDelete:
 				pNode.setRight(None)
-			self.existingNodes[nodeToDelete.getVal()] = None
+			del self.existingNodes[nodeToDelete.getVal()]
 			nodeToDelete = None
 			print ("Node Successfully deleted.")
 			return True
@@ -237,6 +243,10 @@ class Graph(object):
 			print ("One or more vertices not found.")
 			return False
 
+		if (value2 in self.nodes[value1] or value1 in self.nodes[value2]):
+			print ("This edge already exists!")
+			return False
+
 		self.nodes[value1].append(value2)
 		self.nodes[value2].append(value1)
 		return True
@@ -250,6 +260,7 @@ class Graph(object):
 
 
 #############################################
+import random
 
 if __name__ == "__main__":
 
@@ -267,6 +278,15 @@ if __name__ == "__main__":
 	print testQueue.get()
 	print testQueue.get()
 	print testQueue.get()
+	
+	testQueue2 = Queue()
+
+	for i in range(1, 11):
+		testQueue2.put(i)
+	while (not testQueue2.isEmpty()):
+		print testQueue2.get(),
+
+	print ("")
 
 	# TESTING STACK IMPLEMENTATION #
 
@@ -283,6 +303,13 @@ if __name__ == "__main__":
 	print testStack.pop()
 	print testStack.pop()
 	print testStack.pop()
+
+	testStack2 = Stack()
+	for i in range(1, 11):
+		testStack2.push(i)
+	while (testStack2.checkSize() > 0):
+		print testStack2.pop(),
+	print ("")
 
 	# TESTING BINARY TREE IMPLEMENTATION #
  
@@ -302,6 +329,17 @@ if __name__ == "__main__":
 	testBinTree.delete(4)
 	testBinTree.printTree()
 
+	testBinTree2 = BinaryTree(0)
+	for i in range(1, 11):
+		testBinTree2.add(i, i-1)
+		testBinTree2.add(i*2, i-1)
+	testBinTree2.printTree()
+	testBinTree2.delete(20)
+	testBinTree2.delete(18)
+	testBinTree2.delete(10)
+	testBinTree2.printTree()
+	testBinTree2.delete(4)
+
 	# TESTING GRAPH IMPLEMENTATION #
  
  	print ("")
@@ -316,4 +354,34 @@ if __name__ == "__main__":
 	testGraph.findVertex(12)
 	testGraph.addEdge(9, 8)
 	testGraph.findVertex(4)
+
+	testGraph2 = Graph(19)
+	for i in range(0, 10):
+		testGraph2.addVertex(i)
+		current = random.randrange(10, 500)
+		testGraph2.addVertex(current)
+
+		testGraph2.addEdge(current, 19)
+		testGraph2.addEdge(i, current)
+		testGraph2.addEdge(10-i, i)
+
+
+	for i in range(0, 10):
+		testGraph2.findVertex(i),
+
+	testGraph2.findVertex(19)
+
+	# PRINT SUCCESS MESSAGE #
+
+	print ("")
+	print ("--------------------------------------------")
+	print ("")
+	print ("Congratulations, All tests passed successfully!")
+	print ("")
+
+
+
+
+
+
 
