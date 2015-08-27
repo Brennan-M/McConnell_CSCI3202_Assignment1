@@ -69,19 +69,19 @@ class Node(object):
 
 		valid = self.setVal(data)
 		if not valid:
-			return None
+			raise ValueError("Not a valid node value!")
 	
 		valid = self.setLeft(left)
 		if not valid:
-			return None
+			raise ValueError("Not a valid left node value!")
 		
 		valid = self.setRight(right)
 		if not valid:
-			return None
+			raise ValueError("Not a valid right node value!")
 	
 		valid = self.setParent(parent)
 		if not valid:
-			return None
+			raise ValueError("Not a valid parent node value!")
 		
 
 
@@ -138,8 +138,6 @@ class BinaryTree(object):
 	def __init__(self, rootValue):
 
 		self.root = Node(rootValue)
-		if (self.root is None):
-			return None
 
 		self.existingNodes = {self.root.val : self.root}
 
@@ -155,9 +153,6 @@ class BinaryTree(object):
 			return False
 
 		pNode = self.existingNodes[parentValue]
-		if (pNode == None):
-			print "WTF", parentValue
-			return False
 
 		newNode = Node(value, None, None, pNode)
 		if (newNode is None):
@@ -323,6 +318,7 @@ if __name__ == "__main__":
 	testBinTree.add(4, 7)
 	testBinTree.add(3, 2)
 	testBinTree.add(5, 4)
+	testBinTree.add(3, "Hello")
 	testBinTree.printTree()
 	testBinTree.delete(4)
 	testBinTree.delete(5)
